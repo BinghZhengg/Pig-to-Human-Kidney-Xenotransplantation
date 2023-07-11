@@ -35,8 +35,6 @@ homolog_filtered <- homolog_filtered %>%
   distinct(gene1, gene2, .keep_all = TRUE)
 # 14519 genes
 homolog_list = homolog_filtered$gene1 # human_genes = pig_genes
-saveRDS(homolog_list, "data/homolog_list.rds")
-# homolog_list <- readRDS("data/homolog_list.rds")
 
 ##### Step 2: Create Expression Matrices #####
 # Kidney 1:
@@ -114,12 +112,6 @@ VlnPlot(human.t, # human.u, pig.t, pig.u
         ncol = 3,pt.size = 0.1) & theme(plot.title = element_text(size=10))
 
 ##### Step 4: Create Homo-gene only Human and Pig Matrices #####
-# keep human.t, human.u, pig.t, and pig.u for reference
-saveRDS(human.t, "data/human.t.rds")
-saveRDS(human.u, "data/human.u.rds")
-saveRDS(pig.t, "data/pig.t.rds")
-saveRDS(pig.u, "data/pig.u.rds")
-#
 human.t.homolog <- subset(human.t,
                           features = homolog_list)
 human.u.homolog <- subset(human.u,
