@@ -185,7 +185,7 @@ df <- data.frame(
 df$color <- ifelse(df$percent_umi_porcine > 50, "red", "blue")
 
 # Generate the plot
-treated_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
+ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
   geom_point(alpha = 0.5) +
   scale_color_identity() +
   theme_minimal() +
@@ -193,13 +193,6 @@ treated_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_por
     x = "Percent UMI Human",
     y = "Percent UMI Porcine",
     title = "Treated Kidney 1 Percent UMI Human vs Percent UMI Porcine") + theme_bw() + ylim(0,100) + xlim(0,100)
-
-
-pdf("figure_1_drafts/treated_umi_scatter.pdf",
-    width = 3,
-    height = 3)
-treated_umi_scatter
-dev.off()
 
 ### create matrix with human and pig cells with assigned origin ###
 human_cell_barcodes <- merged.t@assays$RNA@counts@Dimnames[[2]][merged.t@meta.data$origin == "human"]
@@ -276,7 +269,7 @@ df <- data.frame(
 df$color <- ifelse(df$percent_umi_porcine > 50, "red", "blue")
 
 # Generate the plot
-untreated_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
+ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
   geom_point(alpha = 0.5) +
   scale_color_identity() +
   theme_minimal() +
@@ -284,12 +277,6 @@ untreated_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_p
     x = "Percent UMI Human",
     y = "Percent UMI Porcine",
     title = "Untreated Kidney 1 Percent UMI Human vs Percent UMI Porcine") + theme_bw() + ylim(0,100) + xlim(0,100)
-
-pdf("figure_1_drafts/untreated_umi_scatter.pdf",
-    width = 3,
-    height = 3)
-untreated_umi_scatter
-dev.off()
 
 # Save the merged Seurat object with the 'origin' metadata
 saveRDS(merged.u, file = "data/1st_kidney_untreated.rds")
@@ -416,7 +403,7 @@ df <- data.frame(
 df$color <- ifelse(df$percent_umi_porcine > 50, "red", "blue")
 
 # Generate the plot
-treated2_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
+ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
   geom_point(alpha = 0.5) +
   scale_color_identity() +
   theme_minimal() +
@@ -425,11 +412,6 @@ treated2_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_po
     y = "Percent UMI Porcine",
     title = "Treated Kidney 2 Percent UMI Human vs Percent UMI Porcine") + theme_bw()
 
-pdf("figure_1_drafts/treated2_umi_scatter.pdf",
-    width = 3,
-    height = 3)
-treated2_umi_scatter
-dev.off()
 # this means that 57 cells out of 1767 cells with porcine expression matrix needs to be substituted with human matrix
 
 ### create matrix with human and pig cells with assigned origin ###
@@ -505,7 +487,7 @@ df <- data.frame(
 df$color <- ifelse(df$percent_umi_porcine > 50, "red", "blue")
 
 # Generate the plot
-untreated2_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
+ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
   geom_point(alpha = 0.5) +
   scale_color_identity() +
   theme_minimal() +
@@ -513,12 +495,6 @@ untreated2_umi_scatter <- ggplot(df, aes(x = percent_umi_human, y = percent_umi_
     x = "Percent UMI Human",
     y = "Percent UMI Porcine",
     title = "Untreated Kidney 2 Percent UMI Human vs Percent UMI Porcine") + theme_bw() + xlim(0,100) + ylim(0,100)
-
-pdf("figure_1_drafts/untreated2_umi_scatter.pdf",
-    width = 3,
-    height = 3)
-untreated2_umi_scatter
-dev.off()
 
 saveRDS(merged.u.2, file = "data/2nd_kidney_untreated.rds")
 untreated2 <- merged.u.2
