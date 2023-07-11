@@ -109,7 +109,7 @@ pig.t <- qc(pig.t)
 pig.u <- qc(pig.u)
 
 # visualize distribution of quality control metrics
-VlnPlot(human.t, 
+VlnPlot(human.t, # human.u, pig.t, pig.u
         features = c("nFeature_RNA","nCount_RNA","percent.mt"),
         ncol = 3,pt.size = 0.1) & theme(plot.title = element_text(size=10))
 
