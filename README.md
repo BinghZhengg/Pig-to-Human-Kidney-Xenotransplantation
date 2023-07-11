@@ -1,4 +1,4 @@
-# Porcine Kidney Xenotransplantation: scRNA-seq Data Analysis
+# Pig-to-Human Kidney Xenotransplantation: scRNA-seq Data Analysis
 
 This repository contains the R scripts used for analyzing scRNA-seq data derived from a study on porcine kidney xenotransplantation. Each script is focused on a different aspect of the data analysis, providing a comprehensive look into the xenotransplantation process and its outcomes.
 
