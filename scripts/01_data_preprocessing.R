@@ -90,7 +90,6 @@ names(Cond2) <- colnames(pig.u)
 pig.t <- AddMetaData(object = pig.t, metadata = Cond1, col.name = "Condition")
 pig.u <- AddMetaData(object = pig.u, metadata = Cond2, col.name = "Condition")
 
-
 ##### Step 3: Quality Control #####
 # QC: genes detected > 500; mitochondrial genes < 8%; UMI > 1000
 qc <- function(data) {
@@ -166,7 +165,7 @@ for (cell in duplicated_cells) {
     merged.t@meta.data$origin[colnames(merged.t@assays$RNA@counts) == cell] <- "porcine"
     # fill in percent_umi_human with percentage of umi mapped to human
   }
-    total_umi[cell] <- human_umi_counts[cell] + porcine_umi_counts[cell]
+    total_umi <- human_umi_counts[cell] + porcine_umi_counts[cell]
     merged.t@meta.data$percent_umi_human[colnames(merged.t) == cell] <- round((human_umi_counts[cell] / total_umi[cell]) * 100, 2)
     # fill in percent_umi_human with percentage of umi mapped to porcine
     merged.t@meta.data$percent_umi_porcine[colnames(merged.t) == cell] <- round((porcine_umi_counts[cell] / total_umi[cell]) * 100, 2)
@@ -207,9 +206,6 @@ pig.cells@meta.data$origin <- rep("porcine", nrow(pig.cells@meta.data))
 treated <- merge(human.cells, 
                   pig.cells, 
                   project = "Merged")
-
-# Save the merged Seurat object with the 'origin' metadata
-saveRDS(treated, file = "data/1st_kidney_untreated.rds")
 
 # Untreated #
 # Find the unique and duplicated cells between the datasets
@@ -278,8 +274,6 @@ ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
     y = "Percent UMI Porcine",
     title = "Untreated Kidney 1 Percent UMI Human vs Percent UMI Porcine") + theme_bw() + ylim(0,100) + xlim(0,100)
 
-# Save the merged Seurat object with the 'origin' metadata
-saveRDS(merged.u, file = "data/1st_kidney_untreated.rds")
 untreated <- merged.u # rename for organizational purposes
 
 #########################################################################
@@ -329,12 +323,6 @@ pig.u.2 <- qc(pig.urt)
 VlnPlot(human.t.2, features = c("nFeature_RNA","nCount_RNA","percent.mt"), ncol = 3,pt.size = 0.1) & theme(plot.title = element_text(size=10))
 
 ##### Step 3: Create Homo-gene only Human and Pig Matrices #####
-# save human.t.2, human.u.2, pig.t.2, and pig.u.2 for reference
-saveRDS(human.t.2, "data/human.t.2.rds")
-saveRDS(human.u.2, "data/human.u.2.rds")
-saveRDS(pig.t.2, "data/pig.t.2.rds")
-saveRDS(pig.u.2, "data/pig.u.2.rds")
-#
 human.t.homolog <- subset(human.t.2,
                           features = homolog_list)
 human.urt.homolog <- subset(human.u.2,
@@ -428,9 +416,6 @@ treated2 <- merge(human.cells2,
                  pig.cells2, 
                  project = "Merged")
 
-# Save the merged Seurat object with the 'origin' metadata
-saveRDS(treated2, file = "data/2nd_kidney_treated.rds")
-
 # Untreated Room Temperature #
 # Find the unique and duplicated cells between the datasets
 unique_human_cells <- setdiff(colnames(human.urt.homolog@assays$RNA@counts), colnames(pig.urt.homolog@assays$RNA@counts)) # 0 cells
@@ -496,7 +481,6 @@ ggplot(df, aes(x = percent_umi_human, y = percent_umi_porcine, color = color)) +
     y = "Percent UMI Porcine",
     title = "Untreated Kidney 2 Percent UMI Human vs Percent UMI Porcine") + theme_bw() + xlim(0,100) + ylim(0,100)
 
-saveRDS(merged.u.2, file = "data/2nd_kidney_untreated.rds")
 untreated2 <- merged.u.2
 #########################################################################
 # final outputs:
@@ -559,7 +543,4 @@ kidneys <- FindClusters(kidneys, resolution = 0.3)
 #### umap
 DimPlot(kidneys, reduction = "umap")
 # view by origin
-DimPlot(kidneys, reduction = "umap", label = T,
-                          split.by = "origin")
-# save for downstream analysis
-saveRDS(kidneys, "data/kidney.rds")
+DimPlot(kidneys, reduction = "umap", label = T, split.by = "origin")
