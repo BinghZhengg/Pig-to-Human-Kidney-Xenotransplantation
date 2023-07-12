@@ -8,34 +8,32 @@ library(RColorBrewer)
 ##### Endothelial Activation #####
 # Figure 3 A
 VlnPlot(subset(kidneys,
-					subset = cell_types == "Endo"),
-		  features = c(
-		  	"CDH5",
-		  	"CDH13", 
-		  	"PECAM1",
-		  	"RAMP3", 
-		  	"TM4SF18"),
-		  group.by = "Condition",
-		  split.by = "cell_types",
-		  pt.size = 0.05,
-		  combine = TRUE,
-		  flip = TRUE,
-		  same.y.lims = TRUE,
-		  stack = TRUE) + 
+subset = cell_types == "Endo"),
+features = c(
+	"CDH5",
+	"CDH13", 
+	"PECAM1",
+	"RAMP3", 
+	"TM4SF18"),
+group.by = "Condition",
+split.by = "cell_types",
+pt.size = 0.05,
+combine = TRUE,
+flip = TRUE,
+same.y.lims = TRUE,
+stack = TRUE) + 
 	scale_fill_manual(values = "pink") +
 	theme_classic()+
 	theme(axis.title = element_blank())+
 	stat_compare_means(aes(group = Condition), 
-							 label = "p.signif",
-							 method = "wilcox.test", 
-							 comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"),
-							 						 c("kidney_2nd_untreated_rt","kidney_2nd_treated"))) +
+label = "p.signif",
+method = "wilcox.test", 
+comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"), c("kidney_2nd_untreated_rt","kidney_2nd_treated"))) +
 	ylim(0,6)
 
 # Figure 3 B
 VlnPlot(Immune,
-		  features = c("ANKRD22",
-		  				 "SLAMF8"),
+		  features = c("ANKRD22", "SLAMF8"),
 		  group.by = "Condition",
 		  split.by = "Immune_Idents",
 		  pt.size = 0.05,
@@ -45,10 +43,9 @@ VlnPlot(Immune,
 		  same.y.lims = TRUE,
 		  cols = c("#2B69A6","#7DC3F5","#6D9D9F","#52A75E","#A6EA9A"))+
 	stat_compare_means(aes(group = Condition), 
-							 label = "p.signif", 
-							 method = "wilcox.test", 
-							 comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"),
-							 						 c("kidney_2nd_untreated_rt","kidney_2nd_treated")))+
+label = "p.signif", 
+method = "wilcox.test", 
+comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"), c("kidney_2nd_untreated_rt","kidney_2nd_treated")))+
 	theme_classic() +
 	theme(axis.text.x = element_blank()) +
 	ylim(NA, 3)
@@ -109,14 +106,26 @@ check_genes_and_assign_colors <- function(genes, color, category, gene_order){
 }
 
 # Get the data and the gene-color mapping for each type of rejection
-abmr <- check_genes_and_assign_colors(genes_abmr, "Reds", 
-												  "Antibody-mediated Rejection", 
-												  gene_order_abmr)
-tcmr <- check_genes_and_assign_colors(genes_tcmr, "Blues", 
-												  "T-Cell Mediated Rejection", 
-												  gene_order_tcmr)
+abmr <- check_genes_and_assign_colors(genes_abmr, "Reds", "Antibody-mediated Rejection", gene_order_abmr)
+tcmr <- check_genes_and_assign_colors(genes_tcmr, "Blues", "T-Cell Mediated Rejection", gene_order_tcmr)
 
 # Figure 3 C
+
+# define function for plotting all rejection-related markers
+plotBulkCategories <- function(data, gene_color_mapping, title){
+  ggplot(data, aes(x = as.numeric(variable), y = value, group = gene, color = gene)) +
+    geom_line(size = 1.5) +
+    theme_classic() +
+    
+    ylim(-2,6) +
+    scale_color_manual(values = gene_color_mapping) +
+    theme(legend.position = "bottom",
+          legend.text = element_text(size=12),
+          legend.title = element_blank()) +
+    labs(x = "Hours after transplantation", y = "log2FC gene expression", color = "Gene") +
+    ggtitle(title)
+}
+
 plotBulkCategories(abmr$data, 
 						 abmr$gene_color_mapping, 
 						 "Antibody-mediated Rejection Over Time")
