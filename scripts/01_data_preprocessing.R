@@ -100,6 +100,9 @@ qc <- function(data) {
   return(data)
 }
 
+# note that mitochondrial genes were not annotated in the porcine-mapped dataset
+# all pig-mapped cells will show having 0 "percent.mt"
+
 human.t <- qc(human.t)
 human.u <- qc(human.u)
 pig.t <- qc(pig.t)
