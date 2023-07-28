@@ -22,6 +22,10 @@ The repository contains the following R scripts:
 - `03_rejection_type_analysis.R`: Examines what type of rejection the xenografts exhibit.
 - `04_proliferating_population_analysis.R`: Analyzes the proliferating cell population in the xenograft.
 - `05_xenograft_damage_analysis.R`: Conducts an analysis of global damage and repair of the xenograft.
+- `06_pbmc_pre_processing.R` : Handles preprocessing of PBMC scRNA-seq data.
+- `07_annotations_EDA.R` : Handles additional annotations for visualization and exploratory analyses.
+- `08_gene_clustering_analysis.R` : Performs co-expressed gene set clustering. 
+- `09_gene_set_analysis.R` : Conducts an analysis of the gene sets.
 
 Each script is a standalone R file that performs a specific analysis and can be executed independently. Comments within each file provide necessary context and understanding of the process.
 
